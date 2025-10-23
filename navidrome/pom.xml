@@ -22,10 +22,17 @@
     </repositories>
 
     <dependencies>
+        <!-- SPW创意工坊API -->
         <dependency>
             <groupId>com.github.Moriafly</groupId>
             <artifactId>spw-workshop-api</artifactId>
             <version>0.1.0-dev14</version>
+        </dependency>
+        <!-- Hutool工具箱 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.20</version>
         </dependency>
     </dependencies>
 

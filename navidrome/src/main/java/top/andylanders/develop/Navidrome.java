@@ -104,7 +104,7 @@ public class Navidrome {
             if (statusCode == 200) {
                 return true; // 成功状态码表示服务在线
             } else {
-                throw new NavidromeException(Objects.requireNonNull(NavidromeExceptionEnum.getByVal(String.valueOf(statusCode))));
+                throw new NavidromeException(String.valueOf(statusCode));
             }
         } catch (IOException e) {
             // 网络错误、连接失败等情况
@@ -115,5 +115,8 @@ public class Navidrome {
         }
     }
 
+    /**
+     *
+     */
 
 }

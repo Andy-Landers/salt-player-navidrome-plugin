@@ -1,4 +1,4 @@
-package top.andylanders.develop.entity;
+package top.andylanders.develop.entity.navidrome;
 
 /**
  * Navidrome媒体源实体类

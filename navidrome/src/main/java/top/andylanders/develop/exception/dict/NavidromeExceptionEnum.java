@@ -10,7 +10,7 @@ public enum NavidromeExceptionEnum {
     UNSUPPORTED_MEDIA_TYPE("415", "不支持的媒体类型"),
     INTERNAL_SERVER_ERROR("500", "服务器内部错误"),
     WRONG_CONFIG("808", "配置文件有误"),
-    ;
+    XML_PARSE_ERROR("666", "XML返回捕获异常");
 
     private final String val;
     private final String desc;

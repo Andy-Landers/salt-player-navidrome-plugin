@@ -3,16 +3,20 @@ package top.andylanders.develop;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.MD5;
 import top.andylanders.develop.dict.NavidromeAPIEnum;
+import top.andylanders.develop.entity.navidrome.response.GetLicenseResponse;
 import top.andylanders.develop.exception.NavidromeException;
 import top.andylanders.develop.exception.dict.NavidromeExceptionEnum;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -76,7 +80,7 @@ public class Navidrome {
      * URL构建器
      * @param api 接口枚举
      * @param extraParams 额外参数
-     * @return 构建后的完整URL
+     * @return 构建后的完整 URL
      */
     private String urlBuilder(NavidromeAPIEnum api, String extraParams) {
         if (extraParams == null || extraParams.isEmpty()) {
@@ -87,8 +91,66 @@ public class Navidrome {
     }
 
     /**
+     * 通用HTTP请求方法
+     * @param api 接口枚举
+     * @param extraParams 额外参数
+     * @return HTTP响应体字符串
+     */
+    private String sendGetRequest(NavidromeAPIEnum api, String extraParams) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(urlBuilder(api, extraParams)))
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            int statusCode = response.statusCode();
+            if (statusCode == 200) {
+                return response.body();
+            } else {
+                throw new NavidromeException(String.valueOf(statusCode));
+            }
+        } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt(); // 恢复中断状态
+            throw new NavidromeException(NavidromeExceptionEnum.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * 通用API调用方法
+     * @param api 接口枚举
+     * @param extraParams 额外参数
+     * @param responseType 响应类型Class
+     * @param <T> 响应类型
+     * @return 解析后的响应对象
+     */
+    private <T> T callApi(NavidromeAPIEnum api, String extraParams, Class<T> responseType) {
+        String xmlResponse = sendGetRequest(api, extraParams);
+        return parseXmlResponse(xmlResponse, responseType);
+    }
+
+
+
+    /**
+     * 通用XML响应解析方法
+     * @param xml XML响应字符串
+     * @param responseType 响应类型Class
+     * @param <T> 响应类型
+     * @return 解析后的响应对象
+     */
+    private <T> T parseXmlResponse(String xml, Class<T> responseType) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(responseType);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            return responseType.cast(unmarshaller.unmarshal(new StringReader(xml)));
+        } catch (JAXBException e) {
+            throw new NavidromeException(NavidromeExceptionEnum.XML_PARSE_ERROR, e);
+        }
+    }
+
+
+    /**
      * 服务器Ping接口
-     * @return 服务器连通性结果，true表示服务器正常
+     * @return 服务器连通性结果，true 表示服务器正常
      */
     public boolean ping() {
 
@@ -116,7 +178,17 @@ public class Navidrome {
     }
 
     /**
-     *
+     * 获取服务器许可证
+     * @return 服务器许可证响应对象
+     */
+    public GetLicenseResponse getLicense() {
+        return callApi(NavidromeAPIEnum.GET_LICENSE, null, GetLicenseResponse.class);
+    }
+
+
+
+    /**
+     * TODO 待完善
      */
 
 }

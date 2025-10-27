@@ -11,6 +11,7 @@ public enum NavidromeAPIEnum {
 
     // System
     PING("/ping", "服务器验活"),
+    GET_LICENSE("/getLicense", "获取授权信息"),
 
     // Browsing
     GET_MUSIC_FOLDERS("/getMusicFolders", "获取音乐文件夹列表"),

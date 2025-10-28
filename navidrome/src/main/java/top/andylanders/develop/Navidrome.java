@@ -139,10 +139,14 @@ public class Navidrome {
      */
     private <T> T parseXmlResponse(String xml, Class<T> responseType) {
         try {
+            System.out.println("Parsing XML: " + xml);  // 调试输出
+            System.out.println("Response type: " + responseType.getName());  // 调试输出
             JAXBContext jaxbContext = JAXBContext.newInstance(responseType);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             return responseType.cast(unmarshaller.unmarshal(new StringReader(xml)));
         } catch (JAXBException e) {
+            System.err.println("JAXB parsing failed: " + e.getMessage());
+            e.printStackTrace();  // 打印完整堆栈跟踪
             throw new NavidromeException(NavidromeExceptionEnum.XML_PARSE_ERROR, e);
         }
     }

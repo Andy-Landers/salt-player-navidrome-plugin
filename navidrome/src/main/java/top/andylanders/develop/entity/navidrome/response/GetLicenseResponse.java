@@ -28,6 +28,11 @@ public class GetLicenseResponse extends CommonResponse {
 
         @javax.xml.bind.annotation.XmlAttribute(name = "licenseExpires")
         private String licenseExpires;
-
     }
 }
+/**
+ * <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ * <subsonic-response xmlns="http://subsonic.org/restapi" openSubsonic="true" serverVersion="0.58.0 (9dbe0c18)" status="ok" type="navidrome" version="1.16.1">
+ *     <license valid="true"/>
+ * </subsonic-response>
+ */

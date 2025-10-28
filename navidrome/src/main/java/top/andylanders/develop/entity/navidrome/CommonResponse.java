@@ -1,7 +1,10 @@
 package top.andylanders.develop.entity.navidrome;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**
@@ -10,7 +13,9 @@ import javax.xml.bind.annotation.XmlAttribute;
  * @date 2025-10-27
  * @description 通用返回头信息
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 @Data
+@NoArgsConstructor
 public class CommonResponse {
 
     // 握手状态

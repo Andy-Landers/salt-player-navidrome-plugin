@@ -1,5 +1,7 @@
 package top.andylanders.develop;
 
+import top.andylanders.develop.entity.navidrome.response.GetLicenseResponse;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -15,6 +17,7 @@ public class Main {
 //        }
         Navidrome navidrome = new Navidrome();
         System.out.println(navidrome.ping());
-        System.out.println(navidrome.getLicense());
+        GetLicenseResponse licenseResponse = navidrome.getLicense();
+        System.out.println(licenseResponse.getLicense().toString());
     }
 }

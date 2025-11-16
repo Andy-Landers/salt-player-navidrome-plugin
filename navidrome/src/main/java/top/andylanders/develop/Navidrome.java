@@ -4,6 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.MD5;
 import top.andylanders.develop.dict.NavidromeAPIEnum;
 import top.andylanders.develop.entity.navidrome.response.GetLicenseResponse;
+import top.andylanders.develop.entity.navidrome.response.GetMusicFoldersResponse;
 import top.andylanders.develop.exception.NavidromeException;
 import top.andylanders.develop.exception.dict.NavidromeExceptionEnum;
 
@@ -60,6 +61,14 @@ public class Navidrome {
         String md5 = MD5.create().digestHex(password + hash);
         this.navidromeToken = "u=" + username + "&t=" + md5 + "&s=" + hash + "&v=1.16.1&c=spw-navidrome-plugin";
     }
+
+    /** TODO
+     * 需要重新构建一个url参数构建器
+     * 以满足传入CommonRequest的子类的时候。可以根据不同类的不同字段进行URL拼接
+     * 代替上述的buildAccessParam()方法
+     * 但是不知道有什么办法可以快速实现对不同实体类的不同字段进行处理的功能
+     * 还是说只能够通过Switch...case的方式暴力写死处理逻辑？（待研究）
+     */
 
     /**
      * 配置文件加载器
@@ -193,5 +202,10 @@ public class Navidrome {
     /**
      * TODO 待完善
      */
+    public GetMusicFoldersResponse getMusicFolders() {
+        return callApi(NavidromeAPIEnum.GET_MUSIC_FOLDERS, null, GetMusicFoldersResponse.class);
+    }
+
+
 
 }

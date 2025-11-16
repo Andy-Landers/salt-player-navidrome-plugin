@@ -1,9 +1,12 @@
 package top.andylanders.develop;
 
+import cn.hutool.core.io.unit.DataSizeUtil;
+import lombok.extern.slf4j.Slf4j;
 import top.andylanders.develop.entity.navidrome.response.GetLicenseResponse;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+@Slf4j
 public class Main {
     public static void main(String[] args) {
 //        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
@@ -18,6 +21,11 @@ public class Main {
         Navidrome navidrome = new Navidrome();
         System.out.println(navidrome.ping());
         GetLicenseResponse licenseResponse = navidrome.getLicense();
-        System.out.println(licenseResponse.getLicense().toString());
+        try {
+            System.out.println(licenseResponse.getLicense().toString());
+        } catch (Exception e) {
+            log.debug("打印栈输出", e);
+            throw new RuntimeException(e);
+        }
     }
 }
